@@ -1,10 +1,15 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
+        logAction(args);
 
         if (args.length < 3) {
             System.out.println("Missing login parameter(s)");
@@ -66,13 +71,48 @@ public class Main {
                         }
                         else System.out.println("Brak praw do zapisu");
                     }
-                    case "3" -> System.out.println("Uruchamiam mapę...");
-                    case "4" -> System.out.println("Uruchamiam symulator...");
+                    case "3" -> {
+                        Random random = new Random();
+                        int firstCoordinate = random.nextInt(5);
+                        int secondCoordinate = random.nextInt(5);
+                        int[][] areaMap = new int[5][5];
+                        areaMap[firstCoordinate][secondCoordinate] = 1;
+                        int foundRow = -1;
+                        int foundCol = -1;
+                        searchLoop:
+                        for (int i = 0; i < 5; i++) {
+                            for (int j = 0; j < 5; j++) {
+                                if (areaMap[i][j] == 1) {
+                                    foundRow = i;
+                                    foundCol = j;
+                                    System.out.println("Znaleciono cel na Znaleziono cel na współrzędnych: " + foundRow + " | " + foundCol);
+                                    break searchLoop;
+                                }
+                            }
+                        }
+                    }
+                    case "4" -> {
+                        int resources = 10;
+                        int teams = 3;
+                        int results = resources / teams;
+                        System.out.println(results);
+                        System.out.println("Typ int zwróci zawsze wartość całkowitą ucinają wartości po przecinku.");
+                        System.out.println("Nawet jeśli wynik wynosiłby 3,99 to typ int zwróciłby 3");
+                        double resultWithDecinamPlaces = (double) resources / teams;
+                        System.out.println(resultWithDecinamPlaces);
+                    }
                     case "5" -> System.out.println("Koniec programu");
                     default -> System.out.println("Unexpected value: " + userSelection);
                 }
                 selectedOption = userSelection;
             }
         }
+    }
+
+    static void logAction(String... messages) {
+        if (messages.length == 0) {
+            System.out.println("[LOG]: no params provided");
+        } else
+            System.out.println("[LOG]: " + String.join(" ",messages));
     }
 }
