@@ -3,11 +3,30 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
+        List<Agent> oddzial = new ArrayList<>();
+
+        oddzial.add(new Haker("Oszust",100, "Mistrz"));
+        oddzial.add(new Komandos("Wariat", 99, "Szefu", 0));
+
+        try {
+            for (Agent agent : oddzial) {
+                try {
+                    agent.useAbility();
+                } catch (NoAmmoException e) {
+                    System.out.println("ALARM: " + e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
 
         logAction(args);
 
